@@ -1,13 +1,18 @@
 Student Management API
 
-A FastAPI application for managing students with user authentication (JWT) and role-based access control (admin/user). Users can sign up, log in, and admins can view/update student records.
+A FastAPI application for managing student records with user authentication (JWT) and role-based access control. Users can sign up and log in, while admins have privileges to view and update student data.
 
 Features
-User signup & login with hashed passwords (bcrypt_sha256)
-JWT-based authentication for secure API access
-Role-based access control: admin vs user
-CRUD operations for student records (view/update)
-MongoDB as the database
+User Authentication
+Signup and login with hashed passwords using bcrypt_sha256.
+JWT-based Authorization
+Secure API access with JSON Web Tokens.
+Role-Based Access Control
+Distinguishes between admin and user roles.
+Student Record Management
+CRUD operations for students (view and update).
+Database
+MongoDB as the persistent storage layer.
 Tech Stack
 Backend: Python, FastAPI
 Database: MongoDB
@@ -15,23 +20,24 @@ Authentication: JWT + Passlib (bcrypt_sha256)
 Environment Variables: python-dotenv
 Dependencies: See requirements.txt
 Setup Instructions
-1. Clone the repository
+1. Clone the Repository
 git clone <your-repo-url>
 cd student-management
-2. Create virtual environment
+2. Create a Virtual Environment
 python -m venv venv
+# Activate
 venv\Scripts\activate      # Windows
 source venv/bin/activate  # macOS/Linux
-3. Install dependencies
+3. Install Dependencies
 pip install -r requirements.txt
-
 4. Run MongoDB
-Make sure MongoDB is running locally on default port (27017).
+
+Ensure MongoDB is running locally on the default port 27017.
 
 Running the API
 uvicorn main:app --reload
---reload enables hot-reload on code changes
-The API will run on: http://127.0.0.1:8000
+The --reload flag enables hot-reload on code changes.
+API will be available at: http://127.0.0.1:8000
 API Endpoints
 1. Signup
 URL: /signup
@@ -44,7 +50,6 @@ Body (JSON):
 }
 Response:
 {"msg": "Admin created successfully"}
-
 {
   "username": "rahul",
   "password": "mypassword",
@@ -52,7 +57,7 @@ Response:
 }
 Response:
 {"msg": "User created successfully"}
-3. Login
+2. Login
 URL: /login
 Method: POST
 Body (JSON):
@@ -65,34 +70,34 @@ Response:
   "access_token": "<JWT_TOKEN>",
   "token_type": "bearer"
 }
-4. Create Students 
+3. Create Students
 URL: /students
 Method: POST
-Header: Authorization: Bearer <JWT_TOKEN>
+Headers: Authorization: Bearer <JWT_TOKEN>
+Body (JSON):
 {
-  "name": "rahul",
-  "age": "int",
-  "grade": "str"
+  "name": "Rahul",
+  "age": 20,
+  "grade": "B"
 }
 Response:
 [
   {"id": "1", "name": "Rahul", "age": 20, "grade": "B"},
   {"id": "2", "name": "Anjali", "age": 21, "grade": "A"}
 ]
-
-5. View Students (User + Admin)
+4. View Students (Admin + User)
 URL: /students
 Method: GET
-Header: Authorization: Bearer <JWT_TOKEN>
+Headers: Authorization: Bearer <JWT_TOKEN>
 Response:
 [
   {"id": "1", "name": "Rahul", "age": 20, "grade": "B"},
   {"id": "2", "name": "Anjali", "age": 21, "grade": "A"}
 ]
-6. Update Student (Admin Only)
+5. Update Student (Admin Only)
 URL: /students/{name}
 Method: PUT
-Header: Authorization: Bearer <JWT_TOKEN>
+Headers: Authorization: Bearer <JWT_TOKEN>
 Body (JSON):
 {
   "age": 22,
@@ -100,17 +105,14 @@ Body (JSON):
 }
 Response:
 {"msg": "Updated"}
-Password Rules
-Passwords are truncated to 72 characters for security (bcrypt limit)
-Use alphanumeric + symbols for stronger passwords
+Password Guidelines
+Passwords are truncated to 72 characters (bcrypt limitation).
+Use a combination of alphanumeric characters and symbols for stronger passwords.
 Notes
-Ensure MongoDB is running
-JWT tokens expire in 60 minutes by default
-Admin role required for update operations
-Run Tests / Seed Data
-
-Seed initial student data:
-
+Ensure MongoDB is running before starting the API.
+JWT tokens expire after 60 minutes by default.
+Admin role is required for updating student records.
+Seed Initial Data
 from database import students_collection
 
 students_collection.insert_many([
