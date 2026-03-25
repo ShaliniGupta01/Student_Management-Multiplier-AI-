@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from database import users_collection
-from auth import hash_password, verify_password
+from auth import hash_password, verify_password, create_token  # ✅ import create_token
 
 router = APIRouter()
 
@@ -15,14 +15,13 @@ async def signup(user: User):
     if users_collection.find_one({"username": user.username}):
         raise HTTPException(status_code=400, detail="User already exists")
 
-    hashed_password = hash_password(user.password)  # ✅ make sure password is truncated inside hash_password
+    hashed_password = hash_password(user.password)
     users_collection.insert_one({
         "username": user.username,
         "password": hashed_password,
         "role": user.role
     })
 
-    # ✅ Correct JSON response, no trailing commas
     return {
         "success": True,
         "message": "User created successfully",
@@ -36,10 +35,18 @@ async def login(user: User):
     if not db_user or not verify_password(user.password, db_user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    # ✅ Correct JSON response, no trailing commas
+    # ✅ Generate JWT token
+    token_data = {
+        "username": db_user["username"],
+        "role": db_user["role"]
+    }
+    token = create_token(token_data)  # create JWT
+
     return {
         "success": True,
         "message": "Login successful",
         "username": db_user["username"],
-        "role": db_user["role"]
+        "role": db_user["role"],
+        "access_token": token,
+        "token_type": "bearer"
     }
