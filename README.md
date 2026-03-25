@@ -28,7 +28,6 @@ pip install -r requirements.txt
 4. Run MongoDB
 Make sure MongoDB is running locally on default port (27017).
 
-
 Running the API
 uvicorn main:app --reload
 --reload enables hot-reload on code changes
