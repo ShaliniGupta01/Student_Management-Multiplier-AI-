@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import Home from "./pages/Home"; 
 import Navbar from "./components/Navbar";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -15,6 +16,8 @@ function App() {
       <Navbar />
         <Routes>
           {/* Default route */}
+
+          <Route path="/" element={<Home />} />  
           <Route path="/" element={<Navigate to="/login" />} />
           
           <Route path="/signup" element={<Signup />} />

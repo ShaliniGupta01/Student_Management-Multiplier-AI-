@@ -20,12 +20,6 @@ const Navbar = () => {
           <>
             <span style={styles.user}>Hello, {user.username} ({user.role})</span>
             <Link to="/dashboard" style={styles.link}>Dashboard</Link>
-
-            {/* Show create student only for admin */}
-            {/* {user.role === "admin" && (
-              <Link to="/students/create" style={styles.link}>Add Student</Link>
-            )} */}
-
             <button onClick={handleLogout} style={styles.logout}>Logout</button>
           </>
         ) : (
