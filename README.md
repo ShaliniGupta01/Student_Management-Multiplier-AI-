@@ -24,16 +24,10 @@ venv\Scripts\activate      # Windows
 source venv/bin/activate  # macOS/Linux
 3. Install dependencies
 pip install -r requirements.txt
-4. Create .env file
 
-Create a .env file in the root directory:
-
-SECRET_KEY=mysecretkey
-ALGORITHM=HS256
-MONGO_URI=mongodb://localhost:27017/
-5. Run MongoDB
-
+4. Run MongoDB
 Make sure MongoDB is running locally on default port (27017).
+
 
 Running the API
 uvicorn main:app --reload
