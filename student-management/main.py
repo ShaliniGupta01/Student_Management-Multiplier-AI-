@@ -6,7 +6,7 @@ app = FastAPI(debug=True)
 
 # Allow frontend (React) to access backend
 origins = [
-    "https://student-management-multiplier-ai.vercel.app/",  # React dev server
+    "https://student-management-multiplier-ai.vercel.app",  # React dev server
 ]
 
 app.add_middleware(
